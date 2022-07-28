@@ -36,7 +36,7 @@ export default function Home() {
           </Profile>
         </Header>
         <ActionButtons>
-          <Link href="/search" passHref>
+          <Link href={"/search"} passHref>
             <ActionButton>
               <ActionButtonImage src="http://i.ibb.co/cyvcpfF/uberx.png" />
               Ride
