@@ -42,6 +42,7 @@ function Search() {
           pathname: "/confirm",
           query: { pickup, dropoff },
         }}
+        passHref
       >
         <ConfirmButtonContainer>Confirm Locations</ConfirmButtonContainer>
       </Link>
