@@ -8,7 +8,7 @@ function Search() {
 
   return (
     <Wrapper>
-      <Link href="/">
+      <Link href="/" passHref>
         <ButtonContainer>
           <BackButton src="https://img.icons8.com/ios-filled/50/000000/left.png" />
         </ButtonContainer>

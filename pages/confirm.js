@@ -34,7 +34,7 @@ const Confirm = () => {
     } else {
       router.push("/search");
     }
-  }, [pickup, dropoff]);
+  }, [pickup, dropoff, router]);
 
   return (
     <Wrapper>
