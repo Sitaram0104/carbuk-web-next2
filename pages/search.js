@@ -16,7 +16,7 @@ function Search() {
       .then((data) => {
         setPickupList(data.features.map((a) => a.place_name));
       });
-  }, [pickup, pickupList]);
+  }, [pickup]);
 
   useEffect(() => {
     fetch(
@@ -26,7 +26,7 @@ function Search() {
       .then((data) => {
         setDropoffList(data.features.map((a) => a.place_name));
       });
-  }, [dropoff, dropoffList]);
+  }, [dropoff]);
 
   return (
     <Wrapper>
