@@ -15,9 +15,8 @@ function Search() {
       .then((res) => res.json())
       .then((data) => {
         setPickupList(data.features.map((a) => a.place_name));
-        console.log(pickupList);
       });
-  }, [pickup]);
+  }, [pickup, pickupList]);
 
   useEffect(() => {
     fetch(
@@ -26,9 +25,8 @@ function Search() {
       .then((res) => res.json())
       .then((data) => {
         setDropoffList(data.features.map((a) => a.place_name));
-        console.log(dropoffList);
       });
-  }, [dropoff]);
+  }, [dropoff, dropoffList]);
 
   return (
     <Wrapper>
