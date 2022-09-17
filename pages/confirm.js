@@ -8,6 +8,7 @@ import Link from "next/link";
 const Confirm = () => {
   const [pickupCoordinates, setPickupCoordinates] = useState(null);
   const [dropoffCoordinates, setDropoffCoordinates] = useState(null);
+  const [nmofPerson, setNmofPerson] = useState(1);
   const router = useRouter();
   const { pickup, dropoff } = router.query;
 
@@ -55,12 +56,84 @@ const Confirm = () => {
       />
       <RideContainer>
         <Title>Choose a ride, or swipe up for more</Title>
-        <RideSelector
+        <div style={{ display: "flex", flexDirection: "column" }}>
+          <div style={{ margin: "15px" }}>
+            <text>Select Pickup Time and date</text>
+            <input
+              type="time"
+              id="appt"
+              name="appt"
+              value={new Date().toLocaleString().slice(12)}
+              style={{
+                border: "2px solid",
+                marginLeft: "2rem",
+                outline: "none",
+              }}
+            />
+            <input
+              type="date"
+              id="datemax"
+              name="datemax"
+              max="1979-12-31"
+              onChange={(e) => console.log(e.target.value)}
+              value={new Date()
+                .toLocaleString()
+                .slice(0, 10)
+                .split("/")
+                .reverse()
+                .join("-")}
+              style={{
+                border: "2px solid",
+                marginLeft: "2rem",
+                outline: "none",
+              }}
+            />
+          </div>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              margin: " 2px 15px",
+            }}
+          >
+            <text>Select number of person</text>
+            {Array(5)
+              .fill()
+              .map((_, i) => (
+                <div
+                  key={i}
+                  onClick={() => setNmofPerson(i + 1)}
+                  style={{
+                    backgroundColor: "#CCCCCC",
+                    padding: "2px 10px",
+                    borderRadius: "3px",
+                    margin: "0 5px",
+                  }}
+                >
+                  {i + 1}
+                </div>
+              ))}
+          </div>
+          <div style={{ margin: "2px 15px" }}>
+            <text>Car Type</text>
+          </div>
+          <div style={{ margin: "2px 15px" }}>
+            <label for="phone">Enter your phone number:</label>
+            <input
+              type="tel"
+              id="phone"
+              name="phone"
+              pattern="[0-9]{3}-[0-9]{2}-[0-9]{3}"
+              style={{ border: "2px solid", margin: "2px 15px" }}
+            />
+          </div>
+        </div>
+        {/* <RideSelector
           pickupCoordinates={pickupCoordinates}
           dropoffCoordinates={dropoffCoordinates}
-        />
+        /> */}
         <ConfirmButtonContainer>
-          <ConfirmButton>Confirm UberX</ConfirmButton>
+          <ConfirmButton>Confirm Carbuk</ConfirmButton>
         </ConfirmButtonContainer>
       </RideContainer>
     </Wrapper>
