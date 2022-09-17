@@ -1,10 +1,34 @@
 import Link from "next/link";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import tw from "tailwind-styled-components";
 
 function Search() {
   const [pickup, setPickup] = useState("");
   const [dropoff, setDropoff] = useState("");
+  const [pickupList, setPickupList] = useState([]);
+  const [dropoffList, setDropoffList] = useState([]);
+
+  useEffect(() => {
+    fetch(
+      `https://api.mapbox.com/geocoding/v5/mapbox.places/${pickup}.json?access_token=pk.eyJ1Ijoic2l0YXJhbTAxMDQiLCJhIjoiY2wyZDVqaTMxMGV4YjNpbXY1a3M4NHptbyJ9.nWEWJk3WUoyK7Es2jMV_3Q`
+    )
+      .then((res) => res.json())
+      .then((data) => {
+        setPickupList(data.features.map((a) => a.place_name));
+        console.log(pickupList);
+      });
+  }, [pickup]);
+
+  useEffect(() => {
+    fetch(
+      `https://api.mapbox.com/geocoding/v5/mapbox.places/${dropoff}.json?access_token=pk.eyJ1Ijoic2l0YXJhbTAxMDQiLCJhIjoiY2wyZDVqaTMxMGV4YjNpbXY1a3M4NHptbyJ9.nWEWJk3WUoyK7Es2jMV_3Q`
+    )
+      .then((res) => res.json())
+      .then((data) => {
+        setDropoffList(data.features.map((a) => a.place_name));
+        console.log(dropoffList);
+      });
+  }, [dropoff]);
 
   return (
     <Wrapper>
@@ -20,16 +44,56 @@ function Search() {
           <Square src="https://img.icons8.com/ios-filled/50/9CA3AF/square.png" />
         </FromToIcons>
         <InputBoxes>
-          <Input
-            placeholder="Enter pickup location"
-            value={pickup}
-            onChange={(e) => setPickup(e.target.value)}
-          />
-          <Input
-            placeholder="Where to?"
-            value={dropoff}
-            onChange={(e) => setDropoff(e.target.value)}
-          />
+          <div style={{ position: "relative" }}>
+            <Input
+              placeholder="Enter pickup location"
+              value={pickup}
+              onChange={(e) => setPickup(e.target.value)}
+            />
+            <div
+              style={{
+                position: "absolute",
+                zIndex: "1",
+                backgroundColor: "#EEEEEE",
+              }}
+            >
+              {pickupList.map((p) => (
+                <div
+                  onClick={() => {
+                    setPickup(p);
+                    setPickupList([]);
+                  }}
+                >
+                  {p}
+                </div>
+              ))}
+            </div>
+          </div>
+          <div style={{ position: "relative" }}>
+            <Input
+              placeholder="Where to?"
+              value={dropoff}
+              onChange={(e) => setDropoff(e.target.value)}
+            />
+            <div
+              style={{
+                position: "absolute",
+                zIndex: "1",
+                backgroundColor: "#EEEEEE",
+              }}
+            >
+              {dropoffList.map((p) => (
+                <div
+                  onClick={() => {
+                    setDropoff(p);
+                    setDropoffList([]);
+                  }}
+                >
+                  {p}
+                </div>
+              ))}
+            </div>
+          </div>
         </InputBoxes>
         <PlusIcon src="https://img.icons8.com/ios-filled/50/000000/plus-math.png" />
       </InputContainer>

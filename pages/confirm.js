@@ -16,7 +16,10 @@ const Confirm = () => {
       `https://api.mapbox.com/geocoding/v5/mapbox.places/${pickup}.json?access_token=pk.eyJ1Ijoic2l0YXJhbTAxMDQiLCJhIjoiY2wyZDVqaTMxMGV4YjNpbXY1a3M4NHptbyJ9.nWEWJk3WUoyK7Es2jMV_3Q`
     )
       .then((res) => res.json())
-      .then((data) => setPickupCoordinates(data.features[0].center));
+      .then((data) => {
+        console.log(data);
+        setPickupCoordinates(data.features[0].center);
+      });
   };
 
   const getDropoffCoordinates = (dropoff) => {
@@ -24,7 +27,10 @@ const Confirm = () => {
       `https://api.mapbox.com/geocoding/v5/mapbox.places/${dropoff}.json?access_token=pk.eyJ1Ijoic2l0YXJhbTAxMDQiLCJhIjoiY2wyZDVqaTMxMGV4YjNpbXY1a3M4NHptbyJ9.nWEWJk3WUoyK7Es2jMV_3Q`
     )
       .then((res) => res.json())
-      .then((data) => setDropoffCoordinates(data.features[0].center));
+      .then((data) => {
+        console.log(data);
+        setDropoffCoordinates(data.features[0].center);
+      });
   };
 
   useEffect(() => {
