@@ -58,7 +58,7 @@ const Confirm = () => {
         <Title>Choose a ride, or swipe up for more</Title>
         <div style={{ display: "flex", flexDirection: "column" }}>
           <div style={{ margin: "15px" }}>
-            <text>Select Pickup Time and date</text>
+            <label htmlFor="appt">Select Pickup Time and date</label>
             <input
               type="time"
               id="appt"
@@ -96,7 +96,7 @@ const Confirm = () => {
               margin: " 2px 15px",
             }}
           >
-            <text>Select number of person</text>
+            <label>Select number of person</label>
             {Array(5)
               .fill()
               .map((_, i) => (
@@ -118,7 +118,7 @@ const Confirm = () => {
             <text>Car Type</text>
           </div>
           <div style={{ margin: "2px 15px" }}>
-            <label for="phone">Enter your phone number:</label>
+            <label htmlFor="phone">Enter your phone number:</label>
             <input
               type="tel"
               id="phone"
