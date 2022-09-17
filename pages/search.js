@@ -55,12 +55,13 @@ function Search() {
                 backgroundColor: "#EEEEEE",
               }}
             >
-              {pickupList.map((p) => (
+              {pickupList.map((p, i) => (
                 <div
                   onClick={() => {
                     setPickup(p);
                     setPickupList([]);
                   }}
+                  key={i}
                 >
                   {p}
                 </div>
@@ -80,12 +81,13 @@ function Search() {
                 backgroundColor: "#EEEEEE",
               }}
             >
-              {dropoffList.map((p) => (
+              {dropoffList.map((p, i) => (
                 <div
                   onClick={() => {
                     setDropoff(p);
                     setDropoffList([]);
                   }}
+                  key={i}
                 >
                   {p}
                 </div>
