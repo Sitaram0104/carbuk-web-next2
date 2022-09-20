@@ -32,7 +32,6 @@ const Map = ({ pickupCoordinates, dropoffCoordinates }) => {
 
   useEffect(() => {
     if (navigator.geolocation) {
-      console.log(navigator.geolocation);
       navigator.geolocation.getCurrentPosition((p) =>
         setGps([p.coords.longitude, p.coords.latitude])
       );
