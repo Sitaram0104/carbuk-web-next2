@@ -2,12 +2,14 @@ import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import tw from "tailwind-styled-components";
 import Map from "./components/Map";
-import RideSelector from "./components/RideSelector";
 import Link from "next/link";
+import { onAuthStateChanged } from "firebase/auth";
+import { auth } from "../firebase";
 
 const carList = ["Sedan", "SUV", "Van", "Magic"];
 
-const Confirm = () => {
+const Confirm = ({ pickup, dropoff, email }) => {
+  const [user, setUser] = useState(null);
   const [pickupCoordinates, setPickupCoordinates] = useState(null);
   const [dropoffCoordinates, setDropoffCoordinates] = useState(null);
   const [nmofPerson, setNmofPerson] = useState(1);
@@ -45,6 +47,21 @@ const Confirm = () => {
       router.push("/");
     }
   }, [pickup, dropoff, router]);
+
+  useEffect(() => {
+    return onAuthStateChanged(auth, (user) => {
+      if (user) {
+        setUser({
+          name: user.displayName,
+          photoUrl: user.photoURL,
+          email: user.email,
+        });
+      } else {
+        setUser(null);
+        router.push("/login");
+      }
+    });
+  }, [router]);
 
   const pad = (p) => (p < 10 ? "0" : "") + p;
 
@@ -114,7 +131,7 @@ const Confirm = () => {
             >
               -
             </PersonButton>
-            <PersonButton style={{ background: "#999999" }}>
+            <PersonButton style={{ background: "#999999", cursor: "auto" }}>
               {nmofPerson}
             </PersonButton>
             <PersonButton
@@ -164,8 +181,27 @@ const Confirm = () => {
                 backgroundColor: "#DDDDDD",
                 border: "solid 2px",
                 borderRadius: "4px",
+                paddingLeft: "4px",
               }}
             />
+          </div>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              margin: " 2px 15px",
+            }}
+          >
+            <div style={{ marginRight: "15px" }}>Your email id is:</div>
+            <PersonButton
+              style={{
+                background: "#999999",
+                cursor: "auto",
+                padding: "0px 6px",
+              }}
+            >
+              {user ? user.email : ""}
+            </PersonButton>
           </div>
           <div style={{ margin: "2px 15px", display: "flex" }}>
             <label htmlFor="phone">Enter your phone number:</label>
@@ -180,15 +216,12 @@ const Confirm = () => {
                 border: "2px solid",
                 margin: "2px 15px",
                 borderRadius: "4px",
+                paddingLeft: "4px",
               }}
             />
             <ConfirmButton>Verify OTP</ConfirmButton>
           </div>
         </div>
-        {/* <RideSelector
-          pickupCoordinates={pickupCoordinates}
-          dropoffCoordinates={dropoffCoordinates}
-        /> */}
         <ConfirmButton
           style={{
             cursor: "not-allowed",
@@ -212,4 +245,4 @@ const RideContainer = tw.div`flex-1 flex flex-col h-1/2`;
 const Title = tw.div`text-gray-500 text-center text-xs border-b py-2`;
 const ConfirmButtonContainer = tw.div`border-t-2`;
 const ConfirmButton = tw.div`bg-black text-white mx-3 px-3 text-center text-xl cursor-pointer w-40`;
-const PersonButton = tw.div`mx-1 bg-gray-200 px-5 py-0 rounded select-none`;
+const PersonButton = tw.div`mx-1 bg-gray-200 px-5 py-0 rounded select-none cursor-pointer`;

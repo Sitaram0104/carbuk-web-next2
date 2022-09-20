@@ -40,7 +40,6 @@ const Map = ({ pickupCoordinates, dropoffCoordinates }) => {
   const addToMap = (map, coord) => {
     const marker1 = new mapboxgl.Marker().setLngLat(coord).addTo(map);
   };
-  console.log(gps);
 
   return <Wrapper id="map" />;
 };

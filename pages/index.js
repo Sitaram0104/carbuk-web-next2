@@ -17,7 +17,11 @@ export default function Home() {
   useEffect(() => {
     return onAuthStateChanged(auth, (user) => {
       if (user) {
-        setUser({ name: user.displayName, photoUrl: user.photoURL });
+        setUser({
+          name: user.displayName,
+          photoUrl: user.photoURL,
+          email: user.email,
+        });
       } else {
         setUser(null);
         router.push("/login");
