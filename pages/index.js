@@ -8,6 +8,10 @@ import { auth, provider } from "../firebase";
 
 export default function Home() {
   const [user, setUser] = useState(null);
+  const [pickup, setPickup] = useState("");
+  const [dropoff, setDropoff] = useState("");
+  const [pickupList, setPickupList] = useState([]);
+  const [dropoffList, setDropoffList] = useState([]);
   const router = useRouter();
 
   useEffect(() => {
@@ -20,6 +24,26 @@ export default function Home() {
       }
     });
   }, [router]);
+
+  useEffect(() => {
+    fetch(
+      `https://api.mapbox.com/geocoding/v5/mapbox.places/${pickup}.json?access_token=pk.eyJ1Ijoic2l0YXJhbTAxMDQiLCJhIjoiY2wyZDVqaTMxMGV4YjNpbXY1a3M4NHptbyJ9.nWEWJk3WUoyK7Es2jMV_3Q`
+    )
+      .then((res) => res.json())
+      .then((data) => {
+        setPickupList(data.features.map((a) => a.place_name));
+      });
+  }, [pickup]);
+
+  useEffect(() => {
+    fetch(
+      `https://api.mapbox.com/geocoding/v5/mapbox.places/${dropoff}.json?access_token=pk.eyJ1Ijoic2l0YXJhbTAxMDQiLCJhIjoiY2wyZDVqaTMxMGV4YjNpbXY1a3M4NHptbyJ9.nWEWJk3WUoyK7Es2jMV_3Q`
+    )
+      .then((res) => res.json())
+      .then((data) => {
+        setDropoffList(data.features.map((a) => a.place_name));
+      });
+  }, [dropoff]);
 
   return (
     <Wrapper>
@@ -35,14 +59,56 @@ export default function Home() {
             />
           </Profile>
         </Header>
-        <ActionButtons>
-          <Link href={"/search"} passHref>
-            <ActionButton>
-              <ActionButtonImage src="http://i.ibb.co/cyvcpfF/uberx.png" />
-              Ride
-            </ActionButton>
-          </Link>
-        </ActionButtons>
+        <div style={{ position: "relative" }}>
+          <InputButton
+            placeholder="Enter pickup location"
+            value={pickup}
+            onChange={(e) => setPickup(e.target.value)}
+          />
+          <List>
+            {pickupList.map((p, i) => (
+              <ListItem
+                key={i}
+                onClick={() => {
+                  setPickup(p);
+                  setPickupList([]);
+                }}
+              >
+                {p}
+              </ListItem>
+            ))}
+          </List>
+        </div>
+        <div style={{ position: "relative" }}>
+          <InputButton
+            placeholder="Where to?"
+            value={dropoff}
+            onChange={(e) => setDropoff(e.target.value)}
+          />
+          <List>
+            {dropoffList.map((p, i) => (
+              <ListItem
+                key={i}
+                onClick={() => {
+                  setDropoff(p);
+                  setDropoffList([]);
+                }}
+              >
+                {p}
+              </ListItem>
+            ))}
+          </List>
+        </div>
+
+        <Link
+          href={{
+            pathname: "/confirm",
+            query: { pickup, dropoff },
+          }}
+          passHref
+        >
+          <ConfirmButtonContainer>Confirm Locations</ConfirmButtonContainer>
+        </Link>
       </ActionItems>
     </Wrapper>
   );
@@ -58,4 +124,7 @@ const UserImage = tw.img`h-12 w-12 object-cover rounded-full border border-gray-
 const ActionButtons = tw.div`flex`;
 const ActionButton = tw.div`flex flex-1 bg-gray-200 m-1 h-32 items-center flex-col justify-center rounded-lg transform hover:scale-105 transition text-xl`;
 const ActionButtonImage = tw.img`h-3/5`;
-const InputButton = tw.div`h-14 bg-gray-200 text-2xl p-4 flex items-center mt-4 flex-1`;
+const InputButton = tw.input`w-9/12 h-10 bg-gray-200 text-2xl my-2 rounded-2 p-2 outline-none flex items-center flex-1`;
+const ConfirmButtonContainer = tw.div`w-9/12 bg-black text-white text-center mt-2 px-4 py-3 text-2xl cursor-pointer`;
+const List = tw.ul`absolute z-10 ml-2 bg-gray-200`;
+const ListItem = tw.li``;
