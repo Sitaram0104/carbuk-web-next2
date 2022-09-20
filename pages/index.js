@@ -42,16 +42,7 @@ export default function Home() {
               Ride
             </ActionButton>
           </Link>
-          <ActionButton>
-            <ActionButtonImage src="http://i.ibb.co/n776JLm/bike.png" />
-            Wheels
-          </ActionButton>
-          <ActionButton>
-            <ActionButtonImage src="http://i.ibb.co/5RjchBg/uberschedule.png" />
-            Reserve
-          </ActionButton>
         </ActionButtons>
-        <InputButton>Where to?</InputButton>
       </ActionItems>
     </Wrapper>
   );
