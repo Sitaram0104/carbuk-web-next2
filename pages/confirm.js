@@ -5,10 +5,13 @@ import Map from "./components/Map";
 import RideSelector from "./components/RideSelector";
 import Link from "next/link";
 
+const carList = ["Sedan", "SUV", "Van", "Magic"];
+
 const Confirm = () => {
   const [pickupCoordinates, setPickupCoordinates] = useState(null);
   const [dropoffCoordinates, setDropoffCoordinates] = useState(null);
   const [nmofPerson, setNmofPerson] = useState(1);
+  const [carType, setCarType] = useState("");
   const router = useRouter();
   const { pickup, dropoff } = router.query;
 
@@ -39,7 +42,7 @@ const Confirm = () => {
       getPickupCoordinates(pickup);
       getDropoffCoordinates(dropoff);
     } else {
-      router.push("/search");
+      router.push("/");
     }
   }, [pickup, dropoff, router]);
 
@@ -99,26 +102,44 @@ const Confirm = () => {
               margin: " 2px 15px",
             }}
           >
-            <label>Select number of person</label>
-            {Array(5)
-              .fill()
-              .map((_, i) => (
-                <div
-                  key={i}
-                  onClick={() => setNmofPerson(i + 1)}
-                  style={{
-                    backgroundColor: "#CCCCCC",
-                    padding: "2px 10px",
-                    borderRadius: "3px",
-                    margin: "0 5px",
-                  }}
-                >
-                  {i + 1}
-                </div>
-              ))}
+            <label style={{ marginRight: "15px" }}>
+              Select number of person
+            </label>
+            <PersonButton
+              onClick={() => setNmofPerson(nmofPerson > 1 ? nmofPerson - 1 : 1)}
+            >
+              -
+            </PersonButton>
+            <PersonButton style={{ background: "#999999" }}>
+              {nmofPerson}
+            </PersonButton>
+            <PersonButton
+              onClick={() =>
+                setNmofPerson(nmofPerson < 30 ? nmofPerson + 1 : 5)
+              }
+            >
+              +
+            </PersonButton>
           </div>
-          <div style={{ margin: "2px 15px" }}>
-            <text>Car Type</text>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              margin: " 2px 15px",
+            }}
+          >
+            <label style={{ marginRight: "15px" }}>Car Type</label>
+            {carList.map((car) => (
+              <PersonButton
+                key={car}
+                onClick={() => setCarType(car)}
+                style={{
+                  backgroundColor: `${carType === car ? "#999999" : "#DDDDDD"}`,
+                }}
+              >
+                {car}
+              </PersonButton>
+            ))}
           </div>
           <div style={{ margin: "2px 15px" }}>
             <label htmlFor="phone">Enter your phone number:</label>
@@ -152,3 +173,4 @@ const RideContainer = tw.div`flex-1 flex flex-col h-1/2`;
 const Title = tw.div`text-gray-500 text-center text-xs border-b py-2`;
 const ConfirmButtonContainer = tw.div`border-t-2`;
 const ConfirmButton = tw.div`bg-black text-white m-3 p-3 text-center text-xl cursor-pointer`;
+const PersonButton = tw.div`mx-1 bg-gray-200 px-5 py-0 rounded `;
