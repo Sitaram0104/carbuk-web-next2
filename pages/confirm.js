@@ -63,7 +63,12 @@ const Confirm = () => {
               type="time"
               id="appt"
               name="appt"
-              value={new Date().toLocaleString().slice(12)}
+              value={`${
+                new Date().getHours() < 10 ? "0" : ""
+              }${new Date().getHours()}:${
+                new Date().getMinutes() < 10 ? "0" : ""
+              }${new Date().getMinutes()}`}
+              onChange={(e) => console.log(e.target.value)}
               style={{
                 border: "2px solid",
                 marginLeft: "2rem",
@@ -74,17 +79,12 @@ const Confirm = () => {
               type="date"
               id="datemax"
               name="datemax"
-              onChange={(e) => {
-                console.log(e.target.value);
-                console.log(
-                  `${new Date().getFullYear()}-0${
-                    new Date().getMonth() + 1
-                  }-${new Date().getDate()}`
-                );
-              }}
+              onChange={(e) => console.log(e.target.value)}
               value={`${new Date().getFullYear()}-${
                 new Date().getMonth() + 1 < 10 ? "0" : ""
-              }${new Date().getMonth() + 1}-${new Date().getDate()}`}
+              }${new Date().getMonth() + 1}-${
+                new Date().getDate() < 10 ? "0" : ""
+              }${new Date().getDate()}`}
               style={{
                 border: "2px solid",
                 marginLeft: "2rem",
