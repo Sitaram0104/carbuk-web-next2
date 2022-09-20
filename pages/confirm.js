@@ -46,6 +46,14 @@ const Confirm = () => {
     }
   }, [pickup, dropoff, router]);
 
+  const pad = (p) => (p < 10 ? "0" : "") + p;
+
+  const d = new Date();
+  const Time = `${pad(d.getHours())}:${pad(d.getMinutes())}`;
+  const currentDate = `${pad(d.getFullYear())}-${pad(d.getMonth())}-${pad(
+    d.getDate()
+  )}`;
+
   return (
     <Wrapper>
       <Link href={"/search"} passHref>
@@ -66,16 +74,14 @@ const Confirm = () => {
               type="time"
               id="appt"
               name="appt"
-              value={`${
-                new Date().getHours() < 10 ? "0" : ""
-              }${new Date().getHours()}:${
-                new Date().getMinutes() < 10 ? "0" : ""
-              }${new Date().getMinutes()}`}
+              value={Time}
               onChange={(e) => console.log(e.target.value)}
               style={{
+                backgroundColor: "#DDDDDD",
                 border: "2px solid",
                 marginLeft: "2rem",
                 outline: "none",
+                borderRadius: "4px",
               }}
             />
             <input
@@ -83,15 +89,13 @@ const Confirm = () => {
               id="datemax"
               name="datemax"
               onChange={(e) => console.log(e.target.value)}
-              value={`${new Date().getFullYear()}-${
-                new Date().getMonth() + 1 < 10 ? "0" : ""
-              }${new Date().getMonth() + 1}-${
-                new Date().getDate() < 10 ? "0" : ""
-              }${new Date().getDate()}`}
+              value={currentDate}
               style={{
+                backgroundColor: "#DDDDDD",
                 border: "2px solid",
                 marginLeft: "2rem",
                 outline: "none",
+                borderRadius: "4px",
               }}
             />
           </div>
@@ -141,24 +145,59 @@ const Confirm = () => {
               </PersonButton>
             ))}
           </div>
-          <div style={{ margin: "2px 15px" }}>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              margin: " 2px 15px",
+            }}
+          >
+            <label style={{ marginRight: "15px" }}>
+              Type Car Name for any Specific Type
+            </label>
+
+            <input
+              placeholder="optional"
+              value={carList.some((c) => c === carType) ? "" : carType}
+              onChange={(e) => setCarType(e.target.value)}
+              style={{
+                backgroundColor: "#DDDDDD",
+                border: "solid 2px",
+                borderRadius: "4px",
+              }}
+            />
+          </div>
+          <div style={{ margin: "2px 15px", display: "flex" }}>
             <label htmlFor="phone">Enter your phone number:</label>
             <input
-              type="tel"
+              type="number"
               id="phone"
               name="phone"
               pattern="[0-9]{3}-[0-9]{2}-[0-9]{3}"
-              style={{ border: "2px solid", margin: "2px 15px" }}
+              min="0"
+              style={{
+                backgroundColor: "#DDDDDD",
+                border: "2px solid",
+                margin: "2px 15px",
+                borderRadius: "4px",
+              }}
             />
+            <ConfirmButton>Verify OTP</ConfirmButton>
           </div>
         </div>
         {/* <RideSelector
           pickupCoordinates={pickupCoordinates}
           dropoffCoordinates={dropoffCoordinates}
         /> */}
-        <ConfirmButtonContainer>
-          <ConfirmButton>Confirm Carbuk</ConfirmButton>
-        </ConfirmButtonContainer>
+        <ConfirmButton
+          style={{
+            cursor: "not-allowed",
+            backgroundColor: "gray",
+            width: "500px",
+          }}
+        >
+          Confirm Ride
+        </ConfirmButton>
       </RideContainer>
     </Wrapper>
   );
@@ -172,5 +211,5 @@ const BackButton = tw.img`h-12`;
 const RideContainer = tw.div`flex-1 flex flex-col h-1/2`;
 const Title = tw.div`text-gray-500 text-center text-xs border-b py-2`;
 const ConfirmButtonContainer = tw.div`border-t-2`;
-const ConfirmButton = tw.div`bg-black text-white m-3 p-3 text-center text-xl cursor-pointer`;
-const PersonButton = tw.div`mx-1 bg-gray-200 px-5 py-0 rounded `;
+const ConfirmButton = tw.div`bg-black text-white mx-3 px-3 text-center text-xl cursor-pointer w-40`;
+const PersonButton = tw.div`mx-1 bg-gray-200 px-5 py-0 rounded select-none`;
