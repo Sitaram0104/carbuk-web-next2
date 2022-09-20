@@ -74,14 +74,17 @@ const Confirm = () => {
               type="date"
               id="datemax"
               name="datemax"
-              max="1979-12-31"
-              onChange={(e) => console.log(e.target.value)}
-              value={new Date()
-                .toLocaleString()
-                .slice(0, 10)
-                .split("/")
-                .reverse()
-                .join("-")}
+              onChange={(e) => {
+                console.log(e.target.value);
+                console.log(
+                  `${new Date().getFullYear()}-0${
+                    new Date().getMonth() + 1
+                  }-${new Date().getDate()}`
+                );
+              }}
+              value={`${new Date().getFullYear()}-${
+                new Date().getMonth() + 1 < 10 ? "0" : ""
+              }${new Date().getMonth() + 1}-${new Date().getDate()}`}
               style={{
                 border: "2px solid",
                 marginLeft: "2rem",
