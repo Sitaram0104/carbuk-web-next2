@@ -22,6 +22,9 @@ const Map = ({ pickupCoordinates, dropoffCoordinates }) => {
     if (dropoffCoordinates) {
       addToMap(map, dropoffCoordinates);
     }
+    if (gps) {
+      addToMap(map, gps);
+    }
     if (pickupCoordinates && dropoffCoordinates) {
       map.fitBounds([pickupCoordinates, dropoffCoordinates], { padding: 60 });
     }
@@ -29,6 +32,7 @@ const Map = ({ pickupCoordinates, dropoffCoordinates }) => {
 
   useEffect(() => {
     if (navigator.geolocation) {
+      console.log(navigator.geolocation);
       navigator.geolocation.getCurrentPosition((p) =>
         setGps([p.coords.longitude, p.coords.latitude])
       );
