@@ -8,7 +8,7 @@ import { auth } from "../firebase";
 
 const carList = ["Sedan", "SUV", "Van", "Magic"];
 
-const Confirm = ({ pickup, dropoff, email }) => {
+const Confirm = () => {
   const [user, setUser] = useState(null);
   const [pickupCoordinates, setPickupCoordinates] = useState(null);
   const [dropoffCoordinates, setDropoffCoordinates] = useState(null);
