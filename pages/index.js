@@ -32,12 +32,12 @@ export default function Home() {
   useEffect(() => {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition((p) => {
-        // setGps([p.coords.longitude, p.coords.latitude]);
         fetch(
           `https://api.mapbox.com/geocoding/v5/mapbox.places/${p.coords.longitude},${p.coords.latitude}.json?access_token=pk.eyJ1Ijoic2l0YXJhbTAxMDQiLCJhIjoiY2wyZDVqaTMxMGV4YjNpbXY1a3M4NHptbyJ9.nWEWJk3WUoyK7Es2jMV_3Q`
         )
           .then((res) => res.json())
           .then((data) => {
+            console.log(data.features);
             setPickup(data.features[0].place_name);
             setPickupList([]);
           });
