@@ -12,6 +12,7 @@ export default function Home() {
   const [dropoff, setDropoff] = useState("");
   const [pickupList, setPickupList] = useState([]);
   const [dropoffList, setDropoffList] = useState([]);
+  const [change, setChange] = useState(true);
   const router = useRouter();
 
   useEffect(() => {
@@ -30,29 +31,27 @@ export default function Home() {
   }, [router]);
 
   useEffect(() => {
-    if (navigator.geolocation) {
+    if (navigator.geolocation && !pickup) {
       navigator.geolocation.getCurrentPosition((p) => {
         fetch(
           `https://api.mapbox.com/geocoding/v5/mapbox.places/${p.coords.longitude},${p.coords.latitude}.json?access_token=pk.eyJ1Ijoic2l0YXJhbTAxMDQiLCJhIjoiY2wyZDVqaTMxMGV4YjNpbXY1a3M4NHptbyJ9.nWEWJk3WUoyK7Es2jMV_3Q`
         )
           .then((res) => res.json())
           .then((data) => {
-            console.log(data.features);
             setPickup(data.features[0].place_name);
             setPickupList([]);
+            setChange(false);
           });
       });
+    } else if (change) {
+      fetch(
+        `https://api.mapbox.com/geocoding/v5/mapbox.places/${pickup}.json?access_token=pk.eyJ1Ijoic2l0YXJhbTAxMDQiLCJhIjoiY2wyZDVqaTMxMGV4YjNpbXY1a3M4NHptbyJ9.nWEWJk3WUoyK7Es2jMV_3Q`
+      )
+        .then((res) => res.json())
+        .then((data) => {
+          setPickupList(data.features.map((a) => a.place_name));
+        });
     }
-  }, []);
-
-  useEffect(() => {
-    fetch(
-      `https://api.mapbox.com/geocoding/v5/mapbox.places/${pickup}.json?access_token=pk.eyJ1Ijoic2l0YXJhbTAxMDQiLCJhIjoiY2wyZDVqaTMxMGV4YjNpbXY1a3M4NHptbyJ9.nWEWJk3WUoyK7Es2jMV_3Q`
-    )
-      .then((res) => res.json())
-      .then((data) => {
-        setPickupList(data.features.map((a) => a.place_name));
-      });
   }, [pickup]);
 
   useEffect(() => {
@@ -83,13 +82,17 @@ export default function Home() {
           <InputButton
             placeholder="Enter pickup location"
             value={pickup}
-            onChange={(e) => setPickup(e.target.value)}
+            onChange={(e) => {
+              setPickup(e.target.value);
+              setChange(true);
+            }}
           />
           <List>
             {pickupList.map((p, i) => (
               <ListItem
                 key={i}
                 onClick={() => {
+                  setChange(false);
                   setPickup(p);
                   setPickupList([]);
                 }}
