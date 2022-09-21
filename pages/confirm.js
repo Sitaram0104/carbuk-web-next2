@@ -202,7 +202,7 @@ const Confirm = () => {
             </PersonButton>
           </div>
           <div style={{ margin: "2px 15px", display: "flex" }}>
-            <label htmlFor="phone">Enter your phone number:</label>
+            <label htmlFor="phone">Mobile number:</label>
             <input
               type="number"
               id="phone"
@@ -217,17 +217,21 @@ const Confirm = () => {
                 paddingLeft: "4px",
               }}
             />
-            <ConfirmButton>Verify OTP</ConfirmButton>
+            <div
+              style={{
+                color: "gray",
+              }}
+            >
+              (We will send OTP to the mobile number)
+            </div>
           </div>
         </div>
         <ConfirmButton
           style={{
-            cursor: "not-allowed",
-            backgroundColor: "gray",
             width: "500px",
           }}
         >
-          Confirm Ride
+          Next
         </ConfirmButton>
       </RideContainer>
     </Wrapper>

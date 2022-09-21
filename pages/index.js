@@ -133,7 +133,7 @@ export default function Home() {
           }
           passHref
         >
-          <ConfirmButtonContainer>Confirm Locations</ConfirmButtonContainer>
+          <ConfirmButtonContainer>Next</ConfirmButtonContainer>
         </Link>
       </ActionItems>
     </Wrapper>
