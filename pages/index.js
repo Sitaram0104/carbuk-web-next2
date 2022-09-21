@@ -124,10 +124,13 @@ export default function Home() {
         </div>
 
         <Link
-          href={{
-            pathname: "/confirm",
-            query: { pickup, dropoff },
-          }}
+          href={
+            pickup &&
+            dropoff && {
+              pathname: "/confirm",
+              query: { pickup, dropoff },
+            }
+          }
           passHref
         >
           <ConfirmButtonContainer>Confirm Locations</ConfirmButtonContainer>
